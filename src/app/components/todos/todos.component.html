@@ -1,0 +1,56 @@
+<div class="container mt-4">
+  <h1 class="text-center">ToDo List</h1>
+
+  <!-- Task Form -->
+  <form (ngSubmit)="isUpdating ? updateTask() : addTask()" #taskForm="ngForm">
+    <div class=" mb-4">
+      <label class="form-label" for="title">Task Title</label>
+      <input type="text" id="title" class="form-control" [(ngModel)]="newTask.title" name="title" required />
+    </div>
+
+    <div class=" mb-4">
+      <label class="form-label" for="dueDate">Due Date</label>
+      <input type="date" id="dueDate" class="form-control" [(ngModel)]="newTask.dueDate" name="dueDate" required />
+    </div>
+
+    <!-- Status Selection -->
+    <div class=" mb-4">
+      <label class="form-label" for="status">Status</label>
+      <select id="status" class="form-select" [(ngModel)]="newTask.status" name="status" required>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">{{ isUpdating ? 'Update Task' : 'Add Task' }}</button>
+  </form>
+
+  <hr>
+
+  <!-- Tasks Table -->
+  <table class="table table-bordered w-100">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Due Date</th>
+        <th>Created Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody >
+      <tr *ngFor="let task of tasks;let i=index" class="w-50" >
+        <td>{{i+1}}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.status }}</td>
+        <td>{{ task.dueDate | date: 'yyyy-MM-dd' }}</td>
+        <td>{{ task.createdDate| date: 'yyyy-MM-dd' }}</td>
+        <td class="btn-group  mx-auto">
+          <button class="btn btn-warning" (click)="editTask(task)">Update</button>
+          <button class="btn btn-danger" (click)="task._id && deleteTask(task._id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
